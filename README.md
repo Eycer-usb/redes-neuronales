@@ -12,10 +12,10 @@ con el siguiente comando
 $ python3 main.py
 
 # Creditos
-Autor: Eros Cedeño
-USBID: 16-10216
-Profesora: Minaya Villasana
-Ene-Mar 2023
-CO-6612 Introduccion a las Redes Neuronales
-Tarea 2: El perceptron
-@eycer1
+- Autor: Eros Cedeño
+- USBID: 16-10216
+- Profesora: Minaya Villasana
+- Ene-Mar 2023
+- CO-6612 Introduccion a las Redes Neuronales
+- Tarea 2: El perceptron
+- RRSS @eycer1
