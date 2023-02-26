@@ -27,39 +27,17 @@ cada categoria. Luego se entrena al perceptron con tres tasas de aprendizaje dis
 y se imprime por la salida estandar el porcentaje de acierto del perceptron al clasificar 
 un estimulo
 """
-def clasificar( estimulo1, estimulo2, respuesta_deseada1, respuesta_deseada2):
-    # Creando las variables para el perceptron
-    estimulos = np.concatenate((estimulo1, estimulo2))
-    respuestas_deseadas = np.concatenate((respuesta_deseada1, respuesta_deseada2))
-    sesgo = np.array([1])
-    tasa_aprendizaje = [0.00000001, 0.001, 0.01, 0.1 ]
-    minimo_peso = -0.05
-    maximo_peso = 0.05
-    max_epocas = 100
-
-    # Por cada tasa de aprendizaje aplicamos el algoritmo
-    for tasa in tasa_aprendizaje:
-        #Creamos el Perceptron y lo entrenamos
-        lms = LMSBatch( nro_neuronas = 1 )
-        lms.entrenar( estimulos, respuestas_deseadas, sesgo, 
-                            tasa, minimo_peso, maximo_peso, max_epocas)
-        
-        print(f"Porcentaje de Acierto con tasa de {tasa} : ", 
-              lms.porcentaje_aciertos)
-        print(f'Error cuadratico medio: {lms.error}')
-        
-def clasificar2( estimulos, respuestas_deseadas ):
-    tasa_aprendizaje = [ 0.001 ]
+       
+def clasificar( estimulos, respuestas_deseadas ):
+    tasa_aprendizaje = [ 0.001, 0.01, 0.1, 1]
     max_epocas = 100
 
     # Por cada tasa de aprendizaje aplicamos el algoritmo
     for tasa in tasa_aprendizaje:
         #Creamos el Perceptron y lo entrenamos
         lms = LMSStochastic()
-        tasas = [ 0.001, 0.01, 0.1 ]
-        for tasa in tasas:
-            lms.entrenar(np.array(estimulos), respuestas_deseadas, tasa, max_epocas)
-            print(f"Error cuadratico medio con tasa: {tasa}\n", lms.costos[-1])
+        lms.entrenar(np.array(estimulos), respuestas_deseadas, tasa, max_epocas)
+        print(f"Error cuadratico medio con tasa: {tasa}\n", lms.costos[-1])
         
 """
 Funcion principal y punto de arranque del cliente
@@ -94,13 +72,13 @@ def main():
     print("### Ciencias de la tierra y el espacio vs Ciencias medicas ###")
     estimulos = np.concatenate((estimulos_tierra, estimulos_medicas))
     respuestas_deseadas = np.concatenate((respuesta_deseada_tierra, respuesta_deseada_medicas))
-    clasificar2(estimulos, respuestas_deseadas)
+    clasificar(estimulos, respuestas_deseadas)
 
     # ### Ciencias de la vida vs Agricultura ###
     print("### Ciencias de la vida vs Agricultura ###")
     estimulos = np.concatenate((estimulos_vida, estimulos_agro))
     respuestas_deseadas = np.concatenate((respuesta_deseada_vida, respuesta_deseada_agro))
-    clasificar2(estimulos, respuestas_deseadas)
+    clasificar(estimulos, respuestas_deseadas)
 
     
 
