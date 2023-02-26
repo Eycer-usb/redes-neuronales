@@ -1,0 +1,7 @@
+### Ciencias de la tierra y el espacio vs Ciencias medicas ###
+Porcentaje de Acierto con tasa de 0.001 :  None
+Error:  inf
+Porcentaje de Acierto con tasa de 0.01 :  None
+Error:  inf
+Porcentaje de Acierto con tasa de 0.1 :  None
+Error:  inf
