@@ -1,6 +1,7 @@
 """
-Implementacion del Perceptron multiclases de Rosemblat
-para la clasificacion de datos linealmente separables
+Implementacion del algoritmo del LMS para los 
+dispositivos Adaline mediante el metodo de actualizacion por lotes
+o estocastica
 """
 
 import numpy as np
@@ -29,15 +30,10 @@ class LMSBatch:
         self.pesos = self.iniciarPesos(nro_entradas, sesgo, minimo_peso, maximo_peso)
         estimulos_ext = np.concatenate((estimulos, np.atleast_2d(np.ones(nro_estimulos)).T), axis=1)
         for q in range(max_epocas):
-            # print(f"Epoca {q}")
             error = self.suma_errores(estimulos_ext, respuestas_deseadas)
-            # print("DIFERENCIA: ", error)
             for i in range(nro_estimulos):
                 self.pesos += tasa_aprendizaje_inicial*error*estimulos_ext[i]
                 out = self.obtenido(estimulos_ext)
-                # print("OBTENIDO:", out)
-                # print("ESPERADO:", respuestas_deseadas)
-                # print("ERROR: ", self.error_cuadratico_medio( respuestas_deseadas, out ))
             self.epocas+=1
 
 
@@ -54,6 +50,7 @@ class LMSBatch:
     
     def activation(self, X):
         return X
+    
     # Se inicializa el vector (o matriz) de pesos para la primera iteracion del 
     # algoritmo
     def iniciarPesos(self, nro_entradas, sesgo, minimo, maximo):

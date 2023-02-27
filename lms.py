@@ -1,13 +1,14 @@
 """
 
 Programa cliente de pruebas para la implementacion del 
-Perceptron multiclases de Rosemblatt.
+Adaline LMS.
 
 """
 
 from LMSBatch import *
 from LMSStochastic import *
 import numpy as np
+import matplotlib.pyplot as plt
 
 """
 Esta funcion recibe la ruta a un archivo .csv
@@ -23,21 +24,23 @@ def obtener_estimulos( nombre_archivo ):
 
 """
 Al clasificar se reciben los estimulos y respuestas deseadas de 
-cada categoria. Luego se entrena al perceptron con tres tasas de aprendizaje dististas
-y se imprime por la salida estandar el porcentaje de acierto del perceptron al clasificar 
+cada categoria. Luego se entrena al adaline con 4 tasas de aprendizaje dististas
+y se imprime por la salida estandar el porcentaje de acierto del adaline al clasificar 
 un estimulo
 """
        
 def clasificar( estimulos, respuestas_deseadas ):
-    tasa_aprendizaje = [ 0.001, 0.01, 0.1 ]
+    tasa_aprendizaje = [ 0.001, 0.01, 0.1, 0.25 ]
     max_epocas = 100
-
+    pesos = []
     # Por cada tasa de aprendizaje aplicamos el algoritmo
     for tasa in tasa_aprendizaje:
-        #Creamos el Perceptron y lo entrenamos
+        #Creamos el lms y lo entrenamos
         lms = LMSStochastic()
         lms.entrenar(np.array(estimulos), respuestas_deseadas, tasa, max_epocas)
         print(f"Error cuadratico medio con tasa: {tasa}\n", lms.costos[-1])
+        pesos.append(list(lms.pesos))
+    return pesos
         
 """
 Funcion principal y punto de arranque del cliente
@@ -72,7 +75,7 @@ def main():
     estimulos_interpolador = obtener_estimulos('datos/datosT3 - datosT3.csv')
     (nro_estimulos, _) = estimulos_interpolador.shape
     respuesta_deseada_interpolador = estimulos_interpolador[:,1]
-    estimulos_interpolador =np.atleast_2d(estimulos_interpolador[:,1]).T
+    estimulos_interpolador =np.atleast_2d(estimulos_interpolador[:,0]).T
 
     ### Ciencias de la tierra y el espacio vs Ciencias medicas ###
     print("### Ciencias de la tierra y el espacio vs Ciencias medicas ###")
@@ -88,7 +91,24 @@ def main():
 
     ### Interpolador ###
     print("\n### Interpolador ###")
-    clasificar(estimulos_interpolador, respuesta_deseada_interpolador)
+    pesos = clasificar(estimulos_interpolador, respuesta_deseada_interpolador)
+    
+
+    ### GRAFICACION ###
+    estimulos_interpolador = obtener_estimulos('datos/datosT3 - datosT3.csv')
+    plt.plot(estimulos_interpolador[:,0], estimulos_interpolador[:, 1], 'ro')
+    plt.xlabel('Eje X')
+    plt.ylabel('Eje Y')
+    plt.show()
+
+    x = np.linspace(-2,2,100)
+    y = pesos[-1][0]*x + pesos[-1][1]
+    plt.plot(x, y, 'g')
+    plt.plot(estimulos_interpolador[:,0], estimulos_interpolador[:, 1], 'ro')
+    plt.xlabel('Eje X')
+    plt.ylabel('Eje Y')
+    plt.show()
+    
     
     
 

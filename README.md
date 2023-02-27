@@ -1,15 +1,22 @@
-# El Perceptron Multiclases de Rosemblat
+# Libreria de Redes Neuronales
 ## Requerimientos tecnicos
 - Python 3
 - Numpy
+- matplotlib
 
 ## Metodo de ejecucion
 Una vez instalados los requerimientos tecnicos
-se debe ejecutar el script 'main.py'
-con el siguiente comando
+se debe ejecutar el script cliente,
 
-### En sistemas basados en Unix:
-$ python3 main.py
+### El Perceptron de Rosemblatt 
+Se puede ejecutar con el siguiente comando
+
+$ python3 perceptron.py
+
+### El Adaline con LMS
+En el caso del adaline se ejecuta el siguiente comando
+
+$ python3 lms.py
 
 # Creditos
 - Autor: Eros Cedeño
@@ -17,5 +24,4 @@ $ python3 main.py
 - Profesora: Minaya Villasana
 - Ene-Mar 2023
 - CO-6612 Introduccion a las Redes Neuronales
-- Tarea 2: El perceptron
 - RRSS @eycer1
