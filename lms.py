@@ -29,7 +29,7 @@ un estimulo
 """
        
 def clasificar( estimulos, respuestas_deseadas ):
-    tasa_aprendizaje = [ 0.001, 0.01, 0.1, 1]
+    tasa_aprendizaje = [ 0.001, 0.01, 0.1 ]
     max_epocas = 100
 
     # Por cada tasa de aprendizaje aplicamos el algoritmo
@@ -68,6 +68,12 @@ def main():
     (nro_estimulos, _ ) = estimulos_agro.shape
     respuesta_deseada_agro = np.zeros(nro_estimulos) - 1
 
+    # Interpolador
+    estimulos_interpolador = obtener_estimulos('datos/datosT3 - datosT3.csv')
+    (nro_estimulos, _) = estimulos_interpolador.shape
+    respuesta_deseada_interpolador = estimulos_interpolador[:,1]
+    estimulos_interpolador =np.atleast_2d(estimulos_interpolador[:,1]).T
+
     ### Ciencias de la tierra y el espacio vs Ciencias medicas ###
     print("### Ciencias de la tierra y el espacio vs Ciencias medicas ###")
     estimulos = np.concatenate((estimulos_tierra, estimulos_medicas))
@@ -75,11 +81,15 @@ def main():
     clasificar(estimulos, respuestas_deseadas)
 
     # ### Ciencias de la vida vs Agricultura ###
-    print("### Ciencias de la vida vs Agricultura ###")
+    print("\n### Ciencias de la vida vs Agricultura ###")
     estimulos = np.concatenate((estimulos_vida, estimulos_agro))
     respuestas_deseadas = np.concatenate((respuesta_deseada_vida, respuesta_deseada_agro))
     clasificar(estimulos, respuestas_deseadas)
 
+    ### Interpolador ###
+    print("\n### Interpolador ###")
+    clasificar(estimulos_interpolador, respuesta_deseada_interpolador)
+    
     
 
 if __name__ == '__main__':

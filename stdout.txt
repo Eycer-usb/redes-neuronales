@@ -1,7 +1,23 @@
 ### Ciencias de la tierra y el espacio vs Ciencias medicas ###
-Porcentaje de Acierto con tasa de 0.001 :  None
-Error:  inf
-Porcentaje de Acierto con tasa de 0.01 :  None
-Error:  inf
-Porcentaje de Acierto con tasa de 0.1 :  None
-Error:  inf
+Error cuadratico medio con tasa: 0.001
+ 0.3162640211412757
+Error cuadratico medio con tasa: 0.01
+ 0.17978036083519788
+Error cuadratico medio con tasa: 0.1
+ 0.024907704005747447
+
+### Ciencias de la vida vs Agricultura ###
+Error cuadratico medio con tasa: 0.001
+ 0.3237736394397988
+Error cuadratico medio con tasa: 0.01
+ 0.04556003706944647
+Error cuadratico medio con tasa: 0.1
+ 0.005374152803235667
+
+### Interpolador ###
+Error cuadratico medio con tasa: 0.001
+ 1.117371351667036e-09
+Error cuadratico medio con tasa: 0.01
+ 6.018531076210112e-38
+Error cuadratico medio con tasa: 0.1
+ 0.0

@@ -43,7 +43,7 @@ class LMSStochastic:
     def activacion(self, x):
         return x
     
-    def evaluar( self, estimulo_a_evaluar, componente_sesgo=True ):
+    def evaluar( self, estimulo_a_evaluar, componente_sesgo=False ):
         if not componente_sesgo:
             estimulo = np.array([*estimulo_a_evaluar, 1])
         else:
