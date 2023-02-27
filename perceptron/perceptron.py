@@ -7,6 +7,7 @@ Perceptron multiclases de Rosemblatt.
 
 from PerceptronDeRosemblatt import *
 import numpy as np
+import os.path
 
 """
 Esta funcion recibe la ruta a un archivo .csv
@@ -14,7 +15,7 @@ y retorna una matriz de floats con los correspondientes
 valores almacenados en el archivo.
 """
 def obtener_estimulos( nombre_archivo ):
-    with open(f'{nombre_archivo}', "r", encoding='utf-8') as f:
+    with open(f'{os.path.dirname(__file__)}/../{nombre_archivo}', "r", encoding='utf-8') as f:
         lineas = f.readlines()
         return np.array(list(map( lambda linea: 
                      list( map( lambda dato: float(dato), linea.split(',')) ),

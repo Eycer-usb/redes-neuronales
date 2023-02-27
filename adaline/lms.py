@@ -4,7 +4,7 @@ Programa cliente de pruebas para la implementacion del
 Adaline LMS.
 
 """
-
+import os.path
 from LMSBatch import *
 from LMSStochastic import *
 import numpy as np
@@ -16,7 +16,7 @@ y retorna una matriz de floats con los correspondientes
 valores almacenados en el archivo.
 """
 def obtener_estimulos( nombre_archivo ):
-    with open(f'{nombre_archivo}', "r", encoding='utf-8') as f:
+    with open(f'{os.path.dirname(__file__)}/../{nombre_archivo}', "r", encoding='utf-8') as f:
         lineas = f.readlines()
         return np.array(list(map( lambda linea: 
                      list( map( lambda dato: float(dato), linea.split(',')) ),

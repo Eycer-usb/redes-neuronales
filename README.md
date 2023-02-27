@@ -11,12 +11,12 @@ se debe ejecutar el script cliente,
 ### El Perceptron de Rosemblatt 
 Se puede ejecutar con el siguiente comando
 
-$ python3 perceptron.py
+$ python3 perceptron/perceptron.py
 
 ### El Adaline con LMS
 En el caso del adaline se ejecuta el siguiente comando
 
-$ python3 lms.py
+$ python3 adaline/lms.py
 
 # Creditos
 - Autor: Eros Cedeño
