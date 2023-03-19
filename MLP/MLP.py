@@ -31,9 +31,14 @@ class MLP:
             layer_number += 1
             layer_input_number = dimention
 
-    
+    def activate(self, input_vector_no_bias):
+        input = input_vector_no_bias
+        for layer in self._network:
+            input = layer.activate( input )
+        return input
+
     def _train_input(self, input_vector_no_bias, expected_answer):
-        # Activating Network
+        # Activating Network saving outputs
         inputs = [input_vector_no_bias]
         for layer in self._network:
             inputs.append( layer.activate( inputs[-1] ) )
