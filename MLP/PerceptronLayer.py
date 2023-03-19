@@ -48,15 +48,15 @@ class PerceptronLayer:
         return self._weight.T
     
     def get_local_gradient_sum(self, next_layer):
-        gradient = []
+        gradient_sum = []
         # print(next_layer._weight, next_layer.local_gradient)
         # print(next_layer._input_n, next_layer._neuron_n)
         for j in range(next_layer._input_n):
             sum_j = 0
             for alpha in range(next_layer._neuron_n):
                 sum_j += next_layer._weight[alpha][j] * next_layer.local_gradient[alpha]
-            gradient.append(sum_j)
-        return np.array(gradient)
+            gradient_sum.append(sum_j)
+        return np.array(gradient_sum)
 
 
     def train(self, input_vector_no_bias, expected_answer, next_layer=None):
