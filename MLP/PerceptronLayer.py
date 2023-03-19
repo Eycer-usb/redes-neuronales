@@ -21,12 +21,14 @@ class PerceptronLayer:
         self._hidden = hidden_layer
         _bias = bias
         if( type(bias) == int ):
-            _bias = np.zeros(neuron_number) + bias
-        self._weight = np.concatenate( (np.random.rand(neuron_number, input_number), _bias ), axis=1 )
-        self._fn = activation_function
-        self._dfn = first_derivative_function
+            _bias = np.zeros((neuron_number,1)) + bias
+        initial_weight = np.random.rand(neuron_number, input_number)
+        self._weight = np.concatenate( (initial_weight, _bias ), axis=1 )
+        self._fn = np.vectorize(activation_function)
+        self._dfn = np.vectorize(first_derivative_function)
 
     def activate(self, input_vector):
+        # print(f"{self._weight} x {input_vector}={np.matmul(self._weight, input_vector)}" )
         try:
             salida = self._fn( np.matmul(self._weight, input_vector) )
             return salida
@@ -52,13 +54,14 @@ class PerceptronLayer:
             answer = self.activate(input_vector)
             e = expected_answer - answer
             dfn_v = self._dfn( np.matmul(self._weight, input_vector) )
-            local_gradient = np.multiply(e, dfn_v)
-            self._weight += self._etha * np.matmul( local_gradient.T , input_vector ) 
+            local_gradient = np.array([np.multiply(e, dfn_v)])
+            # print(np.matmul( local_gradient.T , np.array([input_vector]) ))
+            self._weight += self._etha * np.matmul( local_gradient.T , np.array([input_vector]) ) 
             return local_gradient
         else:
             dfn_v = self._dfn( np.matmul(self._weight, input_vector) )
             grad_sum = self.get_local_gradient_sum(next_local_gradient)
-            local_gradient = np.multiply(  grad_sum, dfn_v )
-            self._weight += self._etha * np.matmul( local_gradient.T , input_vector ) 
+            local_gradient = np.array([np.multiply(  grad_sum, dfn_v )])
+            self._weight += self._etha * np.matmul( local_gradient.T , np.array([input_vector]) ) 
             return local_gradient
         
