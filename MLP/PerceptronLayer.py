@@ -13,12 +13,11 @@ class PerceptronLayer:
     """
     def __init__(self, input_number, neuron_number,
                 activation_function, first_derivative_function,
-                bias, learning_rate, layer_name="", hidden_layer=True):
+                bias, learning_rate, layer_name=""):
         self._input_n = input_number
         self._neuron_n = neuron_number
         self._name = layer_name
         self._etha = learning_rate
-        self._hidden = hidden_layer
         _bias = bias
         if( type(bias) == int ):
             _bias = np.zeros((neuron_number,1)) + bias
