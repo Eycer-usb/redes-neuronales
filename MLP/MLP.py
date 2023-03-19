@@ -63,6 +63,7 @@ class MLP:
     max_epoch: Max Epoch to train network 
     """
     def train(self, inputs_array, expected_answers, max_epoch):
+        error_per_epoch = []
         for epoch in range(max_epoch):
             print(f"Epoch: {epoch+1}")
             N = len(inputs_array)
@@ -70,8 +71,18 @@ class MLP:
                 input_vector_no_bias = np.array(inputs_array[i])
                 expected_answer = np.array(expected_answers[i])
                 self._train_input(input_vector_no_bias, expected_answer )
-        
-            
+            error_per_epoch.append(self.get_error(inputs_array, expected_answers).tolist())
+        return error_per_epoch
 
-
+    """
+    Measure of Medium Square Error
+    """
+    def get_error(self, inputs_array, expected_answers):
+        error = 0
+        N = len(inputs_array)
+        for i in range(N):
+            getted = self.activate(inputs_array[i])
+            wanted = expected_answers[i]
+            error += ((wanted - getted)**2)/(2*N)
+        return error
 
