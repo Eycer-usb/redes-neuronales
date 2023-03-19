@@ -27,8 +27,17 @@ class PerceptronLayer:
         self._fn = np.vectorize(activation_function)
         self._dfn = np.vectorize(first_derivative_function)
 
-    def activate(self, input_vector):
+    def _activate(self, input_vector):
         # print(f"{self._weight} x {input_vector}={np.matmul(self._weight, input_vector)}" )
+        try:
+            salida = self._fn( np.matmul(self._weight, input_vector) )
+            return salida
+        except:
+            raise Exception(f"Error activating neurons layer {self._name}")
+    
+    def activate(self, input_vector_no_bias):
+        # print(f"{self._weight} x {input_vector}={np.matmul(self._weight, input_vector)}" )
+        input_vector = np.concatenate( (input_vector_no_bias, np.array([1])), axis=None )
         try:
             salida = self._fn( np.matmul(self._weight, input_vector) )
             return salida
@@ -38,30 +47,32 @@ class PerceptronLayer:
     def get_untransposed_weight(self):
         return self._weight.T
     
-    def get_local_gradient_sum(self, next_local_gradient):
+    def get_local_gradient_sum(self, next_layer):
         gradient = []
-        for j in range(self._neuron_n):
+        # print(next_layer._weight, next_layer.local_gradient)
+        # print(next_layer._input_n, next_layer._neuron_n)
+        for j in range(next_layer._input_n):
             sum_j = 0
-            for alpha in range((next_local_gradient.shape)[0]):
-                sum_j += self._weight[j] * next_local_gradient[alpha]
+            for alpha in range(next_layer._neuron_n):
+                sum_j += next_layer._weight[alpha][j] * next_layer.local_gradient[alpha]
             gradient.append(sum_j)
         return np.array(gradient)
 
 
-    def train(self, input_vector_no_bias, expected_answer, next_local_gradient, hidden_layer=True):
+    def train(self, input_vector_no_bias, expected_answer, next_layer=None):
         input_vector = np.concatenate( (input_vector_no_bias, np.array([1])), axis=None )
-        if not hidden_layer:
-            answer = self.activate(input_vector)
+        if not next_layer:
+            answer = self._activate(input_vector)
             e = expected_answer - answer
             dfn_v = self._dfn( np.matmul(self._weight, input_vector) )
             local_gradient = np.array([np.multiply(e, dfn_v)])
             # print(np.matmul( local_gradient.T , np.array([input_vector]) ))
             self._weight += self._etha * np.matmul( local_gradient.T , np.array([input_vector]) ) 
-            return local_gradient
+            self.local_gradient = local_gradient[0]
         else:
             dfn_v = self._dfn( np.matmul(self._weight, input_vector) )
-            grad_sum = self.get_local_gradient_sum(next_local_gradient)
+            grad_sum = self.get_local_gradient_sum(next_layer)
             local_gradient = np.array([np.multiply(  grad_sum, dfn_v )])
-            self._weight += self._etha * np.matmul( local_gradient.T , np.array([input_vector]) ) 
-            return local_gradient
+            self._weight += self._etha * np.matmul( local_gradient.T , np.array([input_vector]) )
+            self.local_gradient = local_gradient[0]
         
