@@ -20,12 +20,13 @@ class MLP:
 
         # Initializating Network
         self._network = []
-        layer_number = 0
+        layer_number = 1
         layer_input_number = input_dimentions
         for dimention in neuron_dimentions:
             layer = PerceptronLayer(layer_input_number, dimention, 
                                     activation_function, first_derivative, 1,
                                     learning_rate, layer_number)
+            # print(layer._weight)
             self._network.append(layer)
             layer_number += 1
             layer_input_number = dimention
@@ -33,19 +34,22 @@ class MLP:
     
     def _train_input(self, input_vector_no_bias, expected_answer):
         # Activating Network
-        input = input_vector_no_bias
+        inputs = [input_vector_no_bias]
         for layer in self._network:
-            input = layer.activate(input)
+            inputs.append( layer.activate( inputs[-1] ) )
         # At the last activation the input variable will contain 
-        # the output of the entire network
+        # the inputs and output of the entire network
 
         # Backpropagation
         N = len(self._network)
         for i in range( N-1, -1, -1):
+            layer = self._network[i]
+            input = inputs[i]
             if i + 1 != N :
-                layer[i].train(input_vector_no_bias, None, layer[i+1])
+                next_layer = self._network[i+1]
+                layer.train(input, None, next_layer)
             else:
-                layer.train(input_vector_no_bias, expected_answer)
+                layer.train(input, expected_answer)
 
     """
     Training Function
@@ -54,7 +58,8 @@ class MLP:
     max_epoch: Max Epoch to train network 
     """
     def train(self, inputs_array, expected_answers, max_epoch):
-        for i in range(max_epoch):
+        for epoch in range(max_epoch):
+            print(f"Epoch: {epoch+1}")
             N = len(inputs_array)
             for i in range(N):
                 input_vector_no_bias = np.array(inputs_array[i])
