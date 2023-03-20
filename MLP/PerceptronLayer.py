@@ -21,7 +21,7 @@ class PerceptronLayer:
         _bias = bias
         if( type(bias) == int ):
             _bias = np.zeros((neuron_number,1)) + bias
-        initial_weight = np.random.rand(neuron_number, input_number)
+        initial_weight = np.random.uniform(-0.005,0.005,(neuron_number, input_number))
         self._weight = np.concatenate( (initial_weight, _bias ), axis=1 )
         self._fn = np.vectorize(activation_function)
         self._dfn = np.vectorize(first_derivative_function)

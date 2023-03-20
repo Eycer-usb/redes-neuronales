@@ -83,6 +83,8 @@ class MLP:
         for i in range(N):
             getted = self.activate(inputs_array[i])
             wanted = expected_answers[i]
-            error += ((wanted - getted)**2)/(2*N)
+            delta = wanted - getted
+            for j in range(len(expected_answers[0])):
+                error += delta[j]**2/(2*N)
         return error
 
