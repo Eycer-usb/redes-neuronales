@@ -13,11 +13,13 @@ class PerceptronLayer:
     """
     def __init__(self, input_number, neuron_number,
                 activation_function, first_derivative_function,
-                bias, learning_rate, layer_name=""):
+                bias, learning_rate, layer_name="", alpha=0):
         self._input_n = input_number
         self._neuron_n = neuron_number
         self._name = layer_name
         self._etha = learning_rate
+        self._alpha = alpha
+        self._momentum = 0
         _bias = bias
         if( type(bias) == int ):
             _bias = np.zeros((neuron_number,1)) + bias
@@ -66,12 +68,16 @@ class PerceptronLayer:
             dfn_v = self._dfn( np.matmul(self._weight, input_vector) )
             local_gradient = np.array([np.multiply(e, dfn_v)])
             # print(np.matmul( local_gradient.T , np.array([input_vector]) ))
-            self._weight += self._etha * np.matmul( local_gradient.T , np.array([input_vector]) ) 
+            delta_weight = self._etha * np.matmul( local_gradient.T , np.array([input_vector]) )
+            self._weight +=  delta_weight + self._momentum
+            self._momentum = self._alpha*delta_weight
             self.local_gradient = local_gradient[0]
         else:
             dfn_v = self._dfn( np.matmul(self._weight, input_vector) )
             grad_sum = self.get_local_gradient_sum(next_layer)
             local_gradient = np.array([np.multiply(  grad_sum, dfn_v )])
-            self._weight += self._etha * np.matmul( local_gradient.T , np.array([input_vector]) )
+            delta_weight = self._etha * np.matmul( local_gradient.T , np.array([input_vector]) )
+            self._weight += delta_weight + self._momentum
+            self._momentum = self._alpha*delta_weight
             self.local_gradient = local_gradient[0]
         

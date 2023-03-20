@@ -49,7 +49,7 @@ max_epoch: Number of epoch to train the network
 
 A MLP network is trained with input data
 """
-def create_mlp_clasificator(filename, otherfilename, learning_rate, mlp_dimentions, max_epoch):
+def create_mlp_clasificator(filename, otherfilename, learning_rate, mlp_dimentions, max_epoch, alpha):
     (inputs_class_1, expected_values_class_1) = get_inputs(filename, [1,0])
     (inputs_class_2, expected_values_class_2) = get_inputs(otherfilename, [0,1])
     inputs = inputs_class_1 + inputs_class_2
@@ -57,7 +57,7 @@ def create_mlp_clasificator(filename, otherfilename, learning_rate, mlp_dimentio
     try:
         N = len(inputs[0])
         etha = learning_rate
-        mlp = MLP(etha, fn, dfn, N, mlp_dimentions)
+        mlp = MLP(etha, fn, dfn, N, mlp_dimentions, alpha)
         errors = mlp.train(inputs, expected_values, max_epoch)
         return errors, mlp, inputs, expected_values
     except:
@@ -67,10 +67,10 @@ def create_mlp_clasificator(filename, otherfilename, learning_rate, mlp_dimentio
 A set of learning rates is used to compare performance with the same data
 and a graphic is plotted with comparative
 """
-def compare_learing_rates(filename, otherfilename, learning_rates, mlp_dimentions, max_epoch):
+def compare_learing_rates(filename, otherfilename, learning_rates, mlp_dimentions, max_epoch, alpha):
     colors = ['b', 'g', 'r', 'c', 'm', 'y']
     for i in range(len(learning_rates)):
-        errors, mlp,_,_ = create_mlp_clasificator(filename, otherfilename, learning_rates[i], mlp_dimentions, max_epoch)
+        errors, mlp,_,_ = create_mlp_clasificator(filename, otherfilename, learning_rates[i], mlp_dimentions, max_epoch, alpha)
         print(errors[-1])
         plot_error(max_epoch, errors, learning_rates[i], colors.pop())
     plt.ylabel('Medium Square Error')
@@ -94,11 +94,11 @@ def main():
     med = 'datos/MedSci - MedSci.csv'
     lf = 'datos/LifeSci - LifeSci.csv'
     agr = 'datos/Agri - Agri.csv'
-    learning_rates = [ 0.01, 0.1, 0.5, 1 ]
+    learning_rates = [ 0.01 ]
     dimentions = (4,2)
 
-    # compare_learing_rates(earth, med, learning_rates, dimentions, 600)
-    compare_learing_rates(lf, agr, learning_rates, dimentions, 1000)
+    # compare_learing_rates(earth, med, learning_rates, dimentions, 600, 0.3)
+    compare_learing_rates(lf, agr, learning_rates, dimentions, 100, 0.2)
 
 """
 Testing Function

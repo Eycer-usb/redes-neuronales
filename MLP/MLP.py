@@ -11,12 +11,13 @@ class MLP:
                         (4,3,2) for a 4x3x2 network
     """
     def __init__(self, learning_rate, activation_function, first_derivative, 
-                 input_dimentions, neuron_dimentions ):
+                 input_dimentions, neuron_dimentions, alpha=0 ):
         self._etha = learning_rate
         self._fn = activation_function
         self._dfn = first_derivative
         self._input_d = input_dimentions
         self._neuron_d = neuron_dimentions
+        self._alpha = alpha
 
         # Initializating Network
         self._network = []
@@ -25,7 +26,7 @@ class MLP:
         for dimention in neuron_dimentions:
             layer = PerceptronLayer(layer_input_number, dimention, 
                                     activation_function, first_derivative, 1,
-                                    learning_rate, layer_number)
+                                    learning_rate, layer_number, alpha)
             # print(layer._weight)
             self._network.append(layer)
             layer_number += 1
