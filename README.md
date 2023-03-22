@@ -16,7 +16,8 @@ $ python3 perceptron/perceptron.py
 ### El Adaline con LMS
 En el caso del adaline se ejecuta el siguiente comando
 
-$ python3 adaline/lms.py
+### Para el MLP
+$ python3 MLP/mlp.py
 
 # Creditos
 - Autor: Eros Cedeño
