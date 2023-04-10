@@ -4,6 +4,13 @@
 - Numpy
 - matplotlib
 
+Para instalar los requerimientos se recomienda crear un entorno virtual
+$ python -m venv env
+Luego activar el entorno 
+$ source env/bin/activate
+y finalmente instalar los requerimientos
+$ pip install -r requirements.txt
+
 ## Metodo de ejecucion
 Una vez instalados los requerimientos tecnicos
 se debe ejecutar el script cliente,
@@ -15,6 +22,7 @@ $ python3 perceptron/perceptron.py
 
 ### El Adaline con LMS
 En el caso del adaline se ejecuta el siguiente comando
+$ python3 adaline/adaline.py
 
 ### Para el MLP
 $ python3 MLP/mlp.py
