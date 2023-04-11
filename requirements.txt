@@ -3,3 +3,4 @@ matplotlib
 scipy
 statistics
 pyqt5
+scikit-learn

@@ -21,7 +21,7 @@ def gaussian(x):
     return np.exp( -1/(2*dev**2) * x )
 
 def main():
-    print("Programa CLiente Iniciado")
+    print("Programa Cliente Iniciado")
     ( inputs, expected, dev )   = get_training_set( "../datos/Spectra100 - Spectra100.csv" )
     uni = UniAprox( inputs, expected, gaussian, 0.09 )
     x = list(inputs.T[0]) + list(np.arange( 0, 6, 0.08))

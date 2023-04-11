@@ -7,7 +7,7 @@ Se reciben como parametros:
 - factor_regulation: Es el parametro de regularizacion
 
 Se pueden acceder a los metodos:
-- 
+- interpolate(x) con x un vector de entrada al cual interpolar
 """
 import numpy as np
 class UniAprox:
@@ -19,7 +19,7 @@ class UniAprox:
         self.factor = factor_regulation
         self.function = function
 
-        print(f"Numero de Neuronas: {num_neuron}, Dimensiones: {num_dimention}\n")
+        #print(f"Numero de Neuronas: {num_neuron}, Dimensiones: {num_dimention}\n")
 
         G = np.zeros(( num_neuron, num_neuron ))
         for i in range(num_neuron):
