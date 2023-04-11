@@ -20,21 +20,41 @@ def get_training_set( filename ):
 def gaussian(x):
     return np.exp( -1/(2*dev**2) * x )
 
-def main():
-    print("Programa Cliente Iniciado")
-    ( inputs, expected, dev )   = get_training_set( "../datos/Spectra100 - Spectra100.csv" )
-    uni = UniAprox( inputs, expected, gaussian, 0.09 )
-    x = list(inputs.T[0]) + list(np.arange( 0, 6, 0.08))
-    x.sort()
+def plot(inputs, expected, obj):
+    # x = list(inputs.T[0]) + list(np.arange( 0, 6, 0.1))
+    x = list(inputs.T[0])
+    # x.sort()
     y = []
     for input in x:
-        y.append( uni.interpolate( [ input ] ) )
-
+        y.append( obj.interpolate( [ input ] ) )
+    print(y, expected)
     plt.plot(x,y)
     plt.plot(inputs.T[0], expected, 'ro')
     plt.axis([0.09, 5, 0, 1.3] )
     print("Graficando Curva interpoladora y datos")
     plt.show()
+
+def uniAprox():
+    global dev
+    ( inputs, expected, dev )   = get_training_set( "../datos/Spectra100 - Spectra100.csv" )
+    print(expected)
+    uni = UniAprox( inputs, expected, gaussian, 0.03 )
+    plot(inputs, expected, uni)
+
+def rbfAprox():
+    global dev
+    ( inputs, expected, dev )   = get_training_set( "../datos/Spectra100 - Spectra100.csv" )
+    data = np.concatenate((inputs, expected), axis=1)
+    rbf = RBF( 20, data, gaussian, 0)
+    plot(inputs, expected, rbf)
+
+
+def main():
+    print("Programa Cliente Iniciado")
+    uniAprox()
+    rbfAprox()
+
+    
     
 
 
