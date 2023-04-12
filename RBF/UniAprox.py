@@ -11,6 +11,10 @@ Se pueden acceder a los metodos:
 """
 import numpy as np
 class UniAprox:
+    """
+    Se crea una neurona por dato de entrada y luego se resuelve el sistema de ecuaciones
+    asociado para determinar los pesos sinapticos de cada neurona
+    """
     def __init__(self, inputs, expected, function, factor_regulation = 0) -> None:
         ( num_neuron, num_dimention ) = inputs.shape
         self.num_neuron = num_neuron
@@ -18,9 +22,6 @@ class UniAprox:
         self.inputs = inputs
         self.factor = factor_regulation
         self.function = function
-
-        #print(f"Numero de Neuronas: {num_neuron}, Dimensiones: {num_dimention}\n")
-
         G = np.zeros(( num_neuron, num_neuron ))
         for i in range(num_neuron):
             for j in range(num_neuron):
