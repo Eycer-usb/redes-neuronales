@@ -27,6 +27,9 @@ $ python3 adaline/adaline.py
 ### Para el MLP
 $ python3 MLP/mlp.py
 
+### Para el RBF + Aproximador Universal
+$ python3 RBF/client.py
+
 # Creditos
 - Autor: Eros Cedeño
 - USBID: 16-10216
