@@ -30,6 +30,9 @@ $ python3 MLP/mlp.py
 ### Para el RBF + Aproximador Universal
 $ python3 RBF/client.py
 
+### Para el SVM
+$ python3 SVM/svm.py
+
 # Creditos
 - Autor: Eros Cedeño
 - USBID: 16-10216
