@@ -7,8 +7,7 @@ provisto a lo largo del curso
 import utils
 import numpy as np
 import matplotlib.pyplot as plt
-from som import *
-import random as rand
+from sklearn_som.som import SOM
 
 """
 Visualizaciones mediante t_sne
@@ -40,66 +39,31 @@ def main():
         '../datos/Physic.csv',
         '../datos/TechSci.csv',
     ]
-    m = 20
-    n = 20
+    m = 10
+    n = 10
     data = []
     for filename in files:
         data = data +  list(utils.get_data(filename))
-    train_data = np.array(data)
-    n_x = train_data.shape[0]
-    dim = train_data.shape[1]
-    
-    rand = np.random.RandomState(0)
-    
-    # Initialize the SOM randomly
-    SOM = rand.randint(0, 255, (m, n, dim)).astype(float)
-
-    # Display both the training matrix and the SOM grid
-    fig, ax = plt.subplots(
-    nrows=1, ncols=4, figsize=(15, 3.5), 
-    subplot_kw=dict(xticks=[], yticks=[]))
-    total_epochs = 0
-    for epochs, i in zip([1, 4, 5, 10], range(0,4)):
-        total_epochs += epochs
-        SOM = train_SOM(SOM, train_data, epochs=epochs)
-        RGB = vector_to_rgb(SOM.astype(int))
-        ax[i].imshow()
-        ax[i].title.set_text('Epochs = ' + str(total_epochs))
+    data = np.array(data)
+    epochs_ = [ 5, 10, 100, 1000]
+    fig,ax = plt.subplots(nrows=1, ncols=4, figsize=(15,4))
+    for i, e in enumerate(epochs_):
+        som = SOM(m=m, n=n, dim=512, lr=0.1, random_state=12346)
+        som.fit(data, epochs=e)
+        predictions = som.predict(data)
+        G = np.zeros((m,n,4))
+        for p in predictions:
+            x = p%n
+            y = p//n
+            G[x][y] = [20,0,255, G[x][y][3]+0.5]
+        print(G[:,:,3])
+        ax[i].imshow(G.astype(int))
+        ax[i].set_title(f"Epocas {e}")
+     
         
     plt.show()
+    # print(list(predictions))
     
-def main2():
-    # Dimensions of the SOM grid
-    m = 5
-    n = 4
-    # Number of training examples
-    n_x = 3000
-    rand = np.random.RandomState(0)
-    # Initialize the training data
-    train_data = rand.randint(0, 255, (n_x, 3))
-    
-    # Initialize the SOM randomly
-    SOM = rand.randint(0, 255, (m, n, 3)).astype(float)
-
-    # Display both the training matrix and the SOM grid
-    fig, ax = plt.subplots(
-        nrows=1, ncols=2, figsize=(12, 3.5), 
-        subplot_kw=dict(xticks=[], yticks=[]))
-    ax[0].imshow(train_data.reshape(50, 60, 3))
-    ax[0].title.set_text('Training Data')
-    ax[1].imshow(SOM.astype(int))
-    ax[1].title.set_text('Randomly Initialized SOM Grid')
-    fig, ax = plt.subplots(
-    nrows=1, ncols=4, figsize=(15, 3.5), 
-    subplot_kw=dict(xticks=[], yticks=[]))
-    total_epochs = 0
-    for epochs, i in zip([1, 4, 5, 10], range(0,4)):
-        total_epochs += epochs
-        SOM = train_SOM(SOM, train_data, epochs=epochs)
-        ax[i].imshow(SOM.astype(int))
-        ax[i].title.set_text('Epochs = ' + str(total_epochs))
-        
-    plt.show()
     
     
     
