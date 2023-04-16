@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import random as rand
 
 # Return the (g,h) index of the BMU in the grid
 def find_BMU(SOM,x):
@@ -26,7 +25,7 @@ def update_weights(SOM, train_ex, learn_rate, radius_sq,
 
 # Main routine for training an SOM. It requires an initialized SOM grid
 # or a partially trained grid as parameter
-def train_SOM(SOM, train_data, learn_rate = .1, radius_sq = 1, 
+def train_SOM(SOM, rand, train_data, learn_rate = .1, radius_sq = 1, 
              lr_decay = .1, radius_decay = .1, epochs = 10):    
     learn_rate_0 = learn_rate
     radius_0 = radius_sq
@@ -43,3 +42,10 @@ def train_SOM(SOM, train_data, learn_rate = .1, radius_sq = 1,
 
 # Se convierte un Vector N-dimencional en un vector 3-dimensional
 # para interpretar como RGB
+
+def dimention_to_rgb(SOM, trans):
+    RGB = np.zeros((SOM.shape[0], SOM.shape[1], 3))
+    for i, row in enumerate(SOM):
+        for j, col in enumerate(row):
+            RGB[i][j] = np.matmul(col, trans) % 255
+    return RGB
